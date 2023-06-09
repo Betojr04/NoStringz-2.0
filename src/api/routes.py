@@ -62,19 +62,6 @@ def Login():
         })
    
 
-@api.route('/anon-login', methods=['POST'])
-def anon_login():
-    randnum = random.randint(0,9999999)
-    body = request.get_json(force = True)
-    gender = body['gender']
-    new_user = User(gender = gender, randnum = randnum, is_online= True, created_at = datetime.now())
-    print(new_user, "this is new anon user")
-    db.session.add(new_user)
-    db.session.commit()
-    access_token = create_access_token(identity = randnum)
-    return jsonify(access_token = access_token, randnum= randnum)
-    
-    
 
 
 @api.route('/user/data', methods=['PUT'])
@@ -97,9 +84,6 @@ def validate_identity():
         db.session.commit()
     if "interests" in body and body['intersts'] is not None:
         user.interests = body['intersts']
-        db.session.commit()
-    if "sexualinterests" in body and body['sexual_interests'] is not None:
-        user.sexual_interests = body['sexual_interests']
         db.session.commit()
     if "isonline" in body and body['isonline'] is not None:
         user.is_online = body['isonline']
