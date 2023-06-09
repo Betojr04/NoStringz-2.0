@@ -94,7 +94,6 @@ class Messages(db.Model):
             "receiver_id": self.receiver_id,
             "created_at": self.created_at,
             "group_id": self.groups_guidelines
-
         }
     
 class User_Review(db.Model):
@@ -114,8 +113,6 @@ class User_Review(db.Model):
             "author_id":self.author_id,
             "receiver_id":self.receiver_id,
             "created_at":self.created_at,
-
-
         }
     
 class Global_Messages(db.Model):

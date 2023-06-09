@@ -11,7 +11,6 @@ from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 
-# from app import socketio
 
 api = Blueprint('api', __name__)
 
@@ -25,7 +24,6 @@ def handle_hello():
 
     return jsonify(response_body), 200
 
-# added the routes for created account-mich 
 
 
 @api.route('/createaccount', methods=['POST'])
@@ -127,15 +125,6 @@ def get_Users():
         serialized_users.append(serialized_user)
     return jsonify(serialized_users), 200
 
-@api.route('/anon-users', methods=['GET'])
-def get_Anon_Users():
-    users = User.query.all()
-    serialized_users =[]
-    for user in users:
-        serialized_user = user.serialize()
-        serialized_users.append(serialized_user)
-    return jsonify(serialized_users), 200
-
 @api.route('/current-location', methods=['PUT'])
 @jwt_required()
 def update_Location():
@@ -147,16 +136,6 @@ def update_Location():
     db.session.commit()
     return jsonify({"msg": "okay"}) ,200
 
-@api.route('/anon-location', methods=['PUT'])
-@jwt_required()
-def update_Anon_Location():
-    randnum = get_jwt_identity()
-    incomming_payload = request.get_json()
-    anon_user = User.query.filter_by(randnum= randnum ).first()
-    anon_user.latitude= incomming_payload["lat"]
-    anon_user.longitude= incomming_payload["lng"]
-    db.session.commit()
-    return jsonify({"msg": "okay"}) ,200
 
 @api.route('/anon-logout', methods=['DELETE'])
 @jwt_required()
